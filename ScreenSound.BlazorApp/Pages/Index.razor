@@ -2,6 +2,7 @@
 
 
 @inject ArtistaAPI artistasAPI
+@inject MusicaAPI musicasAPI
 
 <PageTitle>Home</PageTitle>
 
@@ -13,13 +14,23 @@
         <CardArtista Artista=item/> 
     }    
 }
+<br />
+<h3>Últimas músicas cadastradas</h3>
+@if (Musicas is not null)
+{
+    @foreach (var item in Musicas.OrderByDescending(a => a.Id).Take(5)!)
+    {
+        <CardMusica Musica=item />
+    }
+}
 
 @code{
     public List<Artista>? Artistas { get; set; }
-
+    public List<Musica>? Musicas { get; set; }
     protected override async Task OnInitializedAsync()
     {
         Artistas = await artistasAPI.GetArtistasAsync();
+        Musicas = await musicasAPI.GetMusicasAsync();
     }
 }
 

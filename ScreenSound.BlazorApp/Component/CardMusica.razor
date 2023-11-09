@@ -1,0 +1,20 @@
+﻿<div class="music-card bordered-div">
+    <div class="music-title">@Musica!.Nome</div>
+    <div class="genre">Gênero:
+        <div>
+            @if (Musica.Generos is not null)
+            {
+                <h6>Generos: </h6>
+                @foreach (var genero in Musica.Generos)
+                {
+                    <p>genero.Nome</p>
+                    <p>genero.Descricao</p>
+                }  
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public Musica? Musica { get; set; }
+}
