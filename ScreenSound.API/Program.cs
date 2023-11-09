@@ -19,11 +19,18 @@ builder.Services.AddTransient(typeof(EntityDAL<Genero>));
 builder.Services.AddTransient(typeof(ArtistaConverter));
 builder.Services.AddTransient(typeof(MusicaConverter));
 builder.Services.AddTransient(typeof(GeneroConverter));
-
+builder.Services.AddCors();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
+app.UseCors(options =>
+{
+    options.AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader();
+
+});
 
 app.UseHttpsRedirection();
 
