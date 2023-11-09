@@ -1,5 +1,6 @@
 ﻿@page "/"
 
+
 @inject ArtistaAPI artistasAPI
 
 <PageTitle>Home</PageTitle>
@@ -7,9 +8,9 @@
 <h3>Últimos artistas cadastrados</h3>
 @if (Artistas is not null)
 {
-    @foreach (var item in Artistas!)
+    @foreach (var item in Artistas.OrderByDescending(a => a.Id).Take(5)!)
     {
-        <p>@item.Nome</p>    
+        <CardArtista Artista=item/> 
     }    
 }
 
