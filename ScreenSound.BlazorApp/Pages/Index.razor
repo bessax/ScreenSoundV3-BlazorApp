@@ -1,9 +1,24 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+@inject ArtistaAPI artistasAPI
 
-<h1>Hello, world!</h1>
+<PageTitle>Home</PageTitle>
 
-Welcome to your new app.
+<h3>Últimos artistas cadastrados</h3>
+@if (Artistas is not null)
+{
+    @foreach (var item in Artistas!)
+    {
+        <p>@item.Nome</p>    
+    }    
+}
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code{
+    public List<Artista>? Artistas { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Artistas = await artistasAPI.GetArtistasAsync();
+    }
+}
+
