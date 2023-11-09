@@ -1,6 +1,5 @@
 ﻿@page "/"
 
-
 @inject ArtistaAPI artistasAPI
 @inject MusicaAPI musicasAPI
 
@@ -9,10 +8,12 @@
 <h3>Últimos artistas cadastrados</h3>
 @if (Artistas is not null)
 {
-    @foreach (var item in Artistas.OrderByDescending(a => a.Id).Take(5)!)
-    {
-        <CardArtista Artista=item/> 
-    }    
+    <MudGrid>
+        @foreach (var item in Artistas.OrderByDescending(a => a.Id).Take(5)!)
+        {
+            <CardArtista Artista=item/> 
+        }
+    </MudGrid>
 }
 <br />
 <h3>Últimas músicas cadastradas</h3>
