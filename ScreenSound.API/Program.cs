@@ -20,7 +20,17 @@ builder.Services.AddTransient(typeof(ArtistaConverter));
 builder.Services.AddTransient(typeof(MusicaConverter));
 builder.Services.AddTransient(typeof(GeneroConverter));
 
+builder.Services.AddCors();
+
 var app = builder.Build();
+
+app.UseCors(options =>
+{
+    options.AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader();
+
+});
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
