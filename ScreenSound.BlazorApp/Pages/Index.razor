@@ -11,7 +11,7 @@
     <MudGrid>
         @foreach (var item in Artistas.OrderByDescending(a => a.Id).Take(5)!)
         {
-            <CardArtista Artista=item/> 
+            <CardArtista Artista=item />
         }
     </MudGrid>
 }
@@ -19,13 +19,15 @@
 <h3>Últimas músicas cadastradas</h3>
 @if (Musicas is not null)
 {
-    @foreach (var item in Musicas.OrderByDescending(a => a.Id).Take(5)!)
-    {
-        <CardMusica Musica=item />
-    }
+    <MudGrid>
+        @foreach (var item in Musicas.OrderByDescending(a => a.Id).Take(5)!)
+        {
+            <CardMusica Musica=item />
+        }
+    </MudGrid>
 }
 
-@code{
+@code {
     public List<Artista>? Artistas { get; set; }
     public List<Musica>? Musicas { get; set; }
     protected override async Task OnInitializedAsync()

@@ -1,20 +1,52 @@
-﻿<div class="music-card bordered-div">
-    <div class="music-title">@Musica!.Nome</div>
-    <div class="genre">Gênero:
-        <div>
-            @if (Musica.Generos is not null)
+﻿@inject NavigationManager Navigation
+@inject IDialogService DialogService
+
+<MudItem xs="2">
+    <MudCard>
+        <MudCardMedia Image=@Imagem Height="300" />
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h6">@Musica!.Nome</MudText>
+            </CardHeaderContent>
+            <CardHeaderActions>
+                <MudIconButton Title="Gênero" Icon="@Icons.Material.Filled.Info" Color="Color.Default" />
+            </CardHeaderActions>
+        </MudCardHeader>
+        <MudCardContent>       
+            @if (Musica!.Generos is not null)
             {
-                <h6>Generos: </h6>
+                <MudText Typo="Typo.body2">Generos:</MudText>
                 @foreach (var genero in Musica.Generos)
                 {
-                    <p>genero.Nome</p>
-                    <p>genero.Descricao</p>
-                }  
+                     <MudText Typo="Typo.body2">genero.Nome</MudText>
+                    <MudText Typo="Typo.body2">genero.Descricao</MudText>
+                }
             }
-        </div>
-    </div>
-</div>
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton @onclick="() => ConfirmarExclusao(Musica!)"
+                       Variant="Variant.Text"
+                       Color="Color.Secondary">
+                Excluir
+            </MudButton>
+            <MudSpacer></MudSpacer>
+            <MudRating SelectedValue="2" />
+        </MudCardActions>
+    </MudCard>
+</MudItem>
+
 
 @code {
     [Parameter] public Musica? Musica { get; set; }
+    public string Imagem => $"img/notamusical1.jpeg";
+    private void ConfirmarExclusao(Musica musica)
+    {
+        var parameters = new DialogParameters<DialogScreenSoundDeleteMusica>();
+        parameters.Add(x => x.ContentText, $"Deseja realmente excluir {musica.Nome}? A música será excluído da base de dados.");
+        parameters.Add(x => x.ButtonText, "Excluir");
+        parameters.Add(x => x.Color, Color.Error);
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+        DialogService.Show<DialogScreenSoundDeleteMusica>("Excluir Música", parameters, options);
+    }
+ 
 }
