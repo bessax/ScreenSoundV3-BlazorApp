@@ -20,4 +20,9 @@ builder.Services.AddHttpClient<MusicaAPI>(client => {
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
 
+builder.Services.AddHttpClient<GeneroAPI>(client => {
+    client.BaseAddress = new Uri("https://localhost:7016");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
+
 await builder.Build().RunAsync();

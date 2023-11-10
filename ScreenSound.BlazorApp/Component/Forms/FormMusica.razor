@@ -1,0 +1,66 @@
+﻿@inject NavigationManager navigationManager
+@inject ILogger<FormMusica> Logger
+@inject MusicaAPI musicaAPI
+@inject GeneroAPI generoAPI
+
+<MudGrid>
+    <MudItem xs="12" sm="7">
+        <MudPaper Class="pa-4">
+            <MudForm>
+                <MudTextField T="string" Label="Nome" @bind-Value="Musica!.Nome" Required="true" RequiredError="Campo nome deve ser preenchido!" />               
+                <MudText Typo="Typo.body2">Generos:</MudText>
+                
+            </MudForm>
+            
+        </MudPaper>
+        <MudPaper Class="pa-4 mt-4">
+            <MudButton Variant="Variant.Filled" Color="Color.Info" @onclick="VoltarParaListagem">Voltar</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="CadastrarMusica">Gravar</MudButton>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+
+@code {
+    [Parameter]
+    public Musica? Musica { get; set; }
+    private string GeneroMusica { get; set; }
+    private string submitMessage = string.Empty;
+    private string fileImage = string.Empty;
+    private void VoltarParaListagem()
+    {
+        navigationManager.NavigateTo("/");
+    }
+
+    private void AdicionarGenero()
+    {
+        if (Musica is not null)
+        {
+           
+        }
+    }
+
+    private async Task CadastrarMusica()
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(Musica!.Nome))
+            {
+                return;
+            }
+            await musicaAPI.AddMusicaAsync(Musica!);
+            Logger.LogInformation("Música cadastrados com sucesso");
+            Thread.Sleep(2000);
+            navigationManager.NavigateTo("/");
+        }
+        catch (Exception)
+        {
+            Logger.LogInformation("Erro ao cadastrar música!");
+        }
+
+    }
+
+
+
+
+}
