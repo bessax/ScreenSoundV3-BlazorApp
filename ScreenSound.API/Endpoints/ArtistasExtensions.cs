@@ -25,8 +25,10 @@ public static class ArtistasExtensions
 
             var artista = converter.RequestToEntity(artistaReq);
 
-            artista.FotoPerfil = $"/FotoPerfil/{imagemArtista}";
-            entityDAL.Adicionar(converter.RequestToEntity(artistaReq));
+            artista.FotoPerfil = $"/FotosPerfil/{imagemArtista}";
+
+            entityDAL.Adicionar(artista);
+
         }).WithTags("Artista").WithSummary("Adiciona um novo artista").WithOpenApi();
 
 

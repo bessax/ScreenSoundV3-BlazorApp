@@ -29,11 +29,9 @@
 
 @code {
         [Parameter]
-        public Artista? Artista { get; set; }
+        public Artista? Artista { get; set; }       
 
-        public Random random = new Random();
-
-    public string Imagem => $"https://img.freepik.com/vetores-gratis/silhueta-feminina_23-2147524227.jpg";
+        public string Imagem => $"https://localhost:7016/{Artista!.FotoPerfil}";
 
         private void ConfirmarExclusao(Artista artista)
         {
