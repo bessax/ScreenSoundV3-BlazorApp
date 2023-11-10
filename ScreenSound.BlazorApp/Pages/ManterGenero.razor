@@ -1,0 +1,80 @@
+﻿@page "/generos/manter"
+@using System.Text.Json;
+@inject GeneroAPI generoAPI
+@inject NavigationManager Navigation
+@inject IDialogService DialogService
+
+<br />
+<MudButton Variant="Variant.Filled" @onclick="@AdicionarGenero"
+           Color="Color.Primary">
+    Adicionar
+</MudButton>
+<br />
+<MudGrid>
+    <MudItem xs="8">
+        <MudTable Items="@Generos">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6"><b>Manutenção de Gêneros</b></MudText>
+            </ToolBarContent>
+
+            <HeaderContent>
+                <MudTh><b>Nome Artista/Banda</b></MudTh>
+                <MudTh><b>Descricao</b></MudTh>
+                <MudTh><b>Excluir</b></MudTh>
+                <MudTh><b>Editar</b></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="nome">@context.Nome</MudTd>
+                <MudTd DataLabel="descricao">@context.Descricao</MudTd>
+                <MudTd DataLabel="del">                                          
+                        <MudButton @onclick="() => ConfirmarExclusao(context!)">                              
+                            <MudIcon Icon=@Icons.Material.Filled.Delete Color="Color.Primary" />
+                        </MudButton>                 
+
+                </MudTd>
+                <MudTd DataLabel="upd">
+                    <MudButton @onclick="() => AtualizaGenero(context!)">
+                        <MudIcon Icon=@Icons.Material.Filled.Update Color="Color.Primary" />
+                    </MudButton>
+                </MudTd>
+
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager PageSizeOptions="new int[]{5, 10}" />
+            </PagerContent>
+        </MudTable>
+    </MudItem>
+</MudGrid>
+
+@code {
+    public List<Genero>? Generos { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Generos = await generoAPI.GetGenerosAsync();
+    }
+
+    private void AdicionarGenero()
+    {
+        Navigation.NavigateTo("genero/novo");
+    }
+
+
+    private void ConfirmarExclusao(Genero genero)
+    {
+        var parameters = new DialogParameters<DialogScreenSoundDeleteGenero>();
+        parameters.Add(x => x.ContentText, $"Deseja realmente excluir {genero.Nome}? O Gênero será excluído da base de dados.");
+        parameters.Add(x => x.ButtonText, "Excluir");
+        parameters.Add(x => x.Color, Color.Error);
+        parameters.Add(x => x.genero, genero);
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+        DialogService.Show<DialogScreenSoundDeleteGenero>("Excluir Gênero", parameters, options);
+
+    }
+
+    private void AtualizaGenero(Genero genero)
+    {
+        Navigation.NavigateTo("genero/edit/" + genero.Nome);
+    }
+
+}
