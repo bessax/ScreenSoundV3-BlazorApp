@@ -28,7 +28,7 @@ app.UseCors(options =>
     .AllowAnyHeader();
 
 });
- app.UseStaticFiles();
+ 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
 
