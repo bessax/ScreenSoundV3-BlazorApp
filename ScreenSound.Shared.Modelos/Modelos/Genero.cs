@@ -8,6 +8,6 @@ public class Genero
     public virtual ICollection<Musica>? Musicas { get; set; }
     public override string ToString()
     {
-        return $"Nome: {Nome} - Descrição: {Descricao}";
+        return $"{Nome}";
     }
 }

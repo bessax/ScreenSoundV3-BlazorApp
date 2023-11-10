@@ -7,11 +7,17 @@
     <MudItem xs="12" sm="7">
         <MudPaper Class="pa-4">
             <MudForm>
-                <MudTextField T="string" Label="Nome" @bind-Value="Musica!.Nome" Required="true" RequiredError="Campo nome deve ser preenchido!" />               
-                <MudText Typo="Typo.body2">Generos:</MudText>
-                
+                <MudTextField T="string" Label="Nome" @bind-Value="Musica!.Nome" Required="true" RequiredError="Campo nome deve ser preenchido!" />
+                <MudSelect T="Genero" Label="Gêneros" Variant="Variant.Filled" AnchorOrigin="Origin.BottomCenter" onchange="" >
+                    @if (Generos is not null)
+                    {
+                        @foreach (var item in Generos!)
+                        {
+                          <MudSelectItem Value="item" />                          
+                        }
+                    }
+                </MudSelect>                
             </MudForm>
-            
         </MudPaper>
         <MudPaper Class="pa-4 mt-4">
             <MudButton Variant="Variant.Filled" Color="Color.Info" @onclick="VoltarParaListagem">Voltar</MudButton>
@@ -24,20 +30,17 @@
 @code {
     [Parameter]
     public Musica? Musica { get; set; }
-    private string GeneroMusica { get; set; }
+    private List<Genero>? Generos{ get; set; }
     private string submitMessage = string.Empty;
-    private string fileImage = string.Empty;
+
     private void VoltarParaListagem()
     {
         navigationManager.NavigateTo("/");
     }
-
-    private void AdicionarGenero()
+ 
+    protected override async Task OnInitializedAsync()
     {
-        if (Musica is not null)
-        {
-           
-        }
+        Generos = await generoAPI.GetGenerosAsync();
     }
 
     private async Task CadastrarMusica()
@@ -63,4 +66,4 @@
 
 
 
-}
+                    }
