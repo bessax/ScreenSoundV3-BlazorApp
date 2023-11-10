@@ -25,7 +25,7 @@
     public async Task RemoverArtista() {
         try
         {
-            await artistasAPI.DeleteArtistaAsync(artista.Id);        
+            await artistasAPI.DeleteArtistaAsync(artista!.Id);        
             Thread.Sleep(3000);
             navigationManager.NavigateTo("/");
         }

@@ -45,6 +45,7 @@
         parameters.Add(x => x.ContentText, $"Deseja realmente excluir {musica.Nome}? A música será excluído da base de dados.");
         parameters.Add(x => x.ButtonText, "Excluir");
         parameters.Add(x => x.Color, Color.Error);
+        parameters.Add(x => x.Musica, musica);
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
         DialogService.Show<DialogScreenSoundDeleteMusica>("Excluir Música", parameters, options);
     }
