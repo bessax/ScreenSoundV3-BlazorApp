@@ -11,8 +11,21 @@ public static class ArtistasExtensions
 
     public static void AddEndPointArtistas(this WebApplication app)
     {
-        app.MapPost("/Artistas", ([FromServices] ArtistaConverter converter,[FromServices] EntityDAL<Artista> entityDAL,[FromBody] ArtistaRequest artistaReq) =>
+        app.MapPost("/Artistas", async([FromServices]IHostEnvironment env,[FromServices] ArtistaConverter converter,[FromServices] EntityDAL<Artista> entityDAL,[FromBody] ArtistaRequest artistaReq) =>
         {
+            var nome = artistaReq.Nome.Trim();
+            var imagemArtista = DateTime.Now.ToString("ddMMyyyyhhss") + "." + nome + ".jpg";
+
+            var path = Path.Combine(env.ContentRootPath,
+                "wwwroot", "FotosPerfil", imagemArtista);
+
+            using MemoryStream ms = new MemoryStream(Convert.FromBase64String(artistaReq.FotoPerfil));
+            using FileStream fs = new(path, FileMode.Create);
+            await ms.CopyToAsync(fs);
+
+            var artista = converter.RequestToEntity(artistaReq);
+
+            artista.FotoPerfil = $"/FotoPerfil/{imagemArtista}";
             entityDAL.Adicionar(converter.RequestToEntity(artistaReq));
         }).WithTags("Artista").WithSummary("Adiciona um novo artista").WithOpenApi();
 
